@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        compiler: [linux-gcc,linux-clang,linux-gcc8,linux-gcc10,linux-gcc-ubsan,linux-gcc-asan,linux-gcc-32,linux-gcc-x32,linux-clang11,linux-clang12,macos-clang]
+        compiler: [linux-gcc,linux-clang,linux-gcc8,linux-gcc10,linux-gcc-ubsan,linux-gcc-asan,linux-gcc-32,linux-gcc-x32,linux-clang11,linux-clang12,windows-msvc,macos-clang]
         build_type: [Debug]
         include:
           - compiler: linux-gcc
@@ -57,6 +57,13 @@ jobs:
             preconfigure: sudo apt-get update && sudo apt-get install -y clang-12 libc++-12-dev libc++abi-12-dev
             cmake_opts: -DCMAKE_C_COMPILER=clang-12 -DCMAKE_CXX_COMPILER=clang++-12
             cflags: -stdlib=libc++
+
+          - compiler: windows-msvc
+            os: windows-latest
+
+          - compiler: windows-gcc
+            os: windows-2019
+            cmake_opts: -G "MSYS Makefiles" -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
 
           - compiler: macos-clang
             os: macos-latest
